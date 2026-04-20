@@ -1,8 +1,7 @@
 <template>
   <div v-if="messageerreur !== ''">{{ messageerreur }}</div>
-  <iframe name="printFrame" style="width: 100%; height: 100vh; border: none;" />
-  <form ref="formRef" method="POST" action="https://print-vdl-test.lausanne.ch/wsprint-v1.6/print/post"
-    target="printFrame" >
+   <form ref="formRef" method="POST" action="https://print-vdl-test.lausanne.ch/wsprint-v1.6/print/post"
+    target="_top" >
     <input ref="applicationRef" type="hidden" name="application" value="GOELAND" />
     <input ref="documentRef" type="hidden" name="document" :value="'print' + siddoc" />
     <input ref="formatRef" type="hidden" name="format" value="7" />
