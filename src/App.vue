@@ -1,7 +1,6 @@
 <template>
   <div v-if="messageerreur !== ''">{{ messageerreur }}</div>
-   <form ref="formRef" method="POST" action="https://print-vdl-test.lausanne.ch/wsprint-v1.6/print/post"
-    target="_top" >
+  <form ref="formRef" method="POST" action="https://print-vdl-vali.lausanne.ch/wsprint-v1.6/print/post" target="_top">
     <input ref="applicationRef" type="hidden" name="application" value="GOELAND" />
     <input ref="documentRef" type="hidden" name="document" :value="'print' + siddoc" />
     <input ref="formatRef" type="hidden" name="format" value="7" />
@@ -51,10 +50,10 @@ const siddoc = ref<string>('')
 const dataxml64enc = ref<string>('')
 siddoc.value = siddoccontexte
 const formRef = ref<HTMLFormElement | null>(null)
-const applicationRef = ref<HTMLFormElement | null>(null)    
-const documentRef = ref<HTMLFormElement | null>(null)    
-const formatRef = ref<HTMLFormElement | null>(null)    
-const fluxXML64Ref = ref<HTMLFormElement | null>(null)    
+const applicationRef = ref<HTMLFormElement | null>(null)
+const documentRef = ref<HTMLFormElement | null>(null)
+const formatRef = ref<HTMLFormElement | null>(null)
+const fluxXML64Ref = ref<HTMLFormElement | null>(null)
 
 onMounted(async () => {
   if (bprmsok) {
@@ -73,7 +72,11 @@ onMounted(async () => {
     console.log("input documentRef contient", documentRef.value)
     console.log("input formatRef contient", formatRef.value)
     console.log("input fluxXML64 contient", fluxXML64Ref.value)
-    formRef.value?.submit()
+    if (dataxml64enc.value.indexOf('ERREUR:') === 0) {
+      messageerreur.value += dataxml64enc.value
+    } else {
+      formRef.value?.submit()
+    }
   }
 })
 
