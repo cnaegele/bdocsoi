@@ -3,7 +3,7 @@
   <form ref="formRef" method="POST" :action="formaction" target="_top">
     <input ref="applicationRef" type="hidden" name="application" value="GOELAND" />
     <input ref="documentRef" type="hidden" name="document" :value="'print' + siddoc" />
-    <input ref="formatRef" type="hidden" name="format" value="7" />
+    <input ref="formatRef" type="hidden" name="format" :value="sformatdoc" />
     <input ref="fluxXML64Ref" type="hidden" name="fluxXML64" :value="dataxml64enc" />
   </form>
 </template>
@@ -42,10 +42,12 @@ switch (prmsenvironnement) {
 
 let bprmsok = true
 let siddoccontexte: string = ''
+let sformatdoccontexte: string = ''
 let pagecontexte: string = ''
 switch (contexte) {
   case 'afft327lettredispenseautorisation':
     siddoccontexte = 'OPCDispenseAutorisation'
+    sformatdoccontexte = '7'
     pagecontexte = '/goeland/bdocsoi/axios/afft327lettredispenseautorisation.php'
     break;
   default:
@@ -63,8 +65,10 @@ console.log(`bprmsok : ${bprmsok}`)
 console.log(`messageerreur : ${messageerreur.value}`)
 
 const siddoc = ref<string>('')
+const sformatdoc = ref<string>('')
 const dataxml64enc = ref<string>('')
 siddoc.value = siddoccontexte
+sformatdoc.value = sformatdoccontexte
 const formRef = ref<HTMLFormElement | null>(null)
 const applicationRef = ref<HTMLFormElement | null>(null)
 const documentRef = ref<HTMLFormElement | null>(null)
