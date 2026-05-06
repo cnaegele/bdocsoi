@@ -14,7 +14,7 @@ import axios from 'axios'
 import type { AxiosResponse } from 'axios'
 
 const messageerreur = ref<string>('')
-const formaction = ref<string>('https://print-vdl-vali.lausanne.ch/wsprint-v1.6/print/post')
+const formaction = ref<string>('https://print-vdl.lausanne.ch/wsprint-v1.6/print/post')
 const urlParams = new URLSearchParams(window.location.search)
 let idaffaire: number | null = null
 let contexte: string | null = null
