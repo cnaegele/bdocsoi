@@ -1,6 +1,6 @@
 <template>
   <div v-if="messageerreur !== ''">{{ messageerreur }}</div>
-  <form ref="formRef" method="POST" action="https://print-vdl-vali.lausanne.ch/wsprint-v1.6/print/post" target="_top">
+  <form ref="formRef" method="POST" :action="formaction" target="_top">
     <input ref="applicationRef" type="hidden" name="application" value="GOELAND" />
     <input ref="documentRef" type="hidden" name="document" :value="'print' + siddoc" />
     <input ref="formatRef" type="hidden" name="format" value="7" />
@@ -14,9 +14,11 @@ import axios from 'axios'
 import type { AxiosResponse } from 'axios'
 
 const messageerreur = ref<string>('')
+const formaction = ref<string>('https://print-vdl-vali.lausanne.ch/wsprint-v1.6/print/post')
 const urlParams = new URLSearchParams(window.location.search)
 let idaffaire: number | null = null
 let contexte: string | null = null
+let environnement: string = 'prod'
 const prmsidaffaire = urlParams.get('idaffaire')
 if (prmsidaffaire !== null && prmsidaffaire !== '') {
   idaffaire = stringToPositiveInteger(prmsidaffaire)
@@ -25,6 +27,19 @@ const prmscontexte = urlParams.get('contexte')
 if (prmscontexte !== null && prmscontexte !== '') {
   contexte = prmscontexte
 }
+const prmsenvironnement = urlParams.get('environnement')
+if (prmsenvironnement !== null && prmsenvironnement !== '') {
+  environnement = prmsenvironnement
+}
+switch (prmsenvironnement) {
+  case 'test':
+    formaction.value = 'https://print-vdl-test.lausanne.ch/wsprint-v1.6/print/post'
+    break
+  case 'vali':
+    formaction.value = 'https://print-vdl-vali.lausanne.ch/wsprint-v1.6/print/post'
+    break
+}
+
 let bprmsok = true
 let siddoccontexte: string = ''
 let pagecontexte: string = ''
@@ -43,6 +58,7 @@ if (idaffaire === null) {
 }
 console.log(`idaffaire : ${idaffaire}`)
 console.log(`contexte : ${contexte}`)
+console.log(`environnement : ${environnement}`)
 console.log(`bprmsok : ${bprmsok}`)
 console.log(`messageerreur : ${messageerreur.value}`)
 
