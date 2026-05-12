@@ -45,6 +45,11 @@ let siddoccontexte: string = ''
 let sformatdoccontexte: string = ''
 let pagecontexte: string = ''
 switch (contexte) {
+  case 'afft218permisconstruire':
+    siddoccontexte = 'PermisDeConstruire'
+    sformatdoccontexte = '7'
+    pagecontexte = '/goeland/bdocsoi/axios/afft218permisconstruire.php'
+    break;
   case 'afft327lettredispenseautorisation':
     siddoccontexte = 'OPCDispenseAutorisation'
     sformatdoccontexte = '7'
