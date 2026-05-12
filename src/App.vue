@@ -36,7 +36,7 @@ const prmscontrole = urlParams.get('controle')
 if (prmscontrole !== null && prmscontrole !== '') {
   controle = prmscontrole
 }
-switch (prmsenvironnement) {
+switch (environnement) {
   case 'test':
     formaction.value = 'https://print-vdl-test.lausanne.ch/wsprint-v1.6/print/post'
     break
@@ -71,6 +71,7 @@ if (idaffaire === null) {
 console.log(`idaffaire : ${idaffaire}`)
 console.log(`contexte : ${contexte}`)
 console.log(`environnement : ${environnement}`)
+console.log(`formaction : ${formaction.value}`)
 console.log(`bprmsok : ${bprmsok}`)
 console.log(`messageerreur : ${messageerreur.value}`)
 
