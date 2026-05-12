@@ -19,6 +19,7 @@ const urlParams = new URLSearchParams(window.location.search)
 let idaffaire: number | null = null
 let contexte: string | null = null
 let environnement: string = 'prod'
+let controle: string = ''
 const prmsidaffaire = urlParams.get('idaffaire')
 if (prmsidaffaire !== null && prmsidaffaire !== '') {
   idaffaire = stringToPositiveInteger(prmsidaffaire)
@@ -30,6 +31,10 @@ if (prmscontexte !== null && prmscontexte !== '') {
 const prmsenvironnement = urlParams.get('environnement')
 if (prmsenvironnement !== null && prmsenvironnement !== '') {
   environnement = prmsenvironnement
+}
+const prmscontrole = urlParams.get('controle')
+if (prmscontrole !== null && prmscontrole !== '') {
+  controle = prmscontrole
 }
 switch (prmsenvironnement) {
   case 'test':
@@ -100,7 +105,9 @@ onMounted(async () => {
     if (dataxml64enc.value.indexOf('ERREUR:') === 0) {
       messageerreur.value += dataxml64enc.value
     } else {
-      formRef.value?.submit()
+      if (controle !== 'nopostdebug') {
+        formRef.value?.submit()
+      }
     }
   }
 })
