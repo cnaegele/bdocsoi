@@ -14,7 +14,8 @@ import axios from 'axios'
 import type { AxiosResponse } from 'axios'
 
 const messageerreur = ref<string>('')
-const formaction = ref<string>('https://print-vdl.lausanne.ch/wsprint-v1.6/print/post')
+//const formaction = ref<string>('https://print-vdl.lausanne.ch/wsprint-v1.6/print/post')
+const formaction = ref<string>('http://ws-print.lausanne.ch/wsprint-v1.6/print/post') //sans sso
 const urlParams = new URLSearchParams(window.location.search)
 let idaffaire: number | null = null
 let contexte: string | null = null
@@ -38,10 +39,12 @@ if (prmscontrole !== null && prmscontrole !== '') {
 }
 switch (environnement) {
   case 'test':
-    formaction.value = 'https://print-vdl-test.lausanne.ch/wsprint-v1.6/print/post'
+    //formaction.value = 'https://print-vdl-test.lausanne.ch/wsprint-v1.6/print/post'
+    formaction.value = 'http://ws-print-test.lausanne.ch/wsprint-v1.6/print/post' //sans sso
     break
   case 'vali':
-    formaction.value = 'https://print-vdl-vali.lausanne.ch/wsprint-v1.6/print/post'
+    //formaction.value = 'https://print-vdl-vali.lausanne.ch/wsprint-v1.6/print/post'
+    formaction.value = 'http://ws-print-vali.lausanne.ch/wsprint-v1.6/print/post' //sans sso
     break
 }
 
@@ -50,6 +53,11 @@ let siddoccontexte: string = ''
 let sformatdoccontexte: string = ''
 let pagecontexte: string = ''
 switch (contexte) {
+  case 'afft11lettredemandeprealable':
+    siddoccontexte = 'OPCDemandePrealable'
+    sformatdoccontexte = '7'
+    pagecontexte = '/goeland/bdocsoi/axios/afft11lettredemandeprealable.php'
+    break;
   case 'afft218permisconstruire':
     siddoccontexte = 'PermisDeConstruire'
     sformatdoccontexte = '7'
