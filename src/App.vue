@@ -94,8 +94,39 @@ const documentRef = ref<HTMLFormElement | null>(null)
 const formatRef = ref<HTMLFormElement | null>(null)
 const fluxXML64Ref = ref<HTMLFormElement | null>(null)
 
+/**
+ * Établit la session F5 SSO via window.open.
+ * Ouvre une mini-fenêtre vers le service, F5 intercepte et fait le SSO,
+ * le cookie est posé. On attend 1 secondes, puis on ferme la fenêtre.
+ */
+function etablirSessionSso(): Promise<void> {
+  return new Promise((resolve) => {
+    const wssosession = window.open(
+      formaction.value,
+      'ssosession',
+      'width=1,height=1,left=-9999,top=-9999'
+    )
+
+    if (!wssosession) {
+      console.warn('popup SSO bloqué par le navigateur, on continue sans')
+      resolve()
+      return
+    }
+
+    // On laisse 1 secondes pour que F5 fasse le SSO complet,
+    // puis on ferme la fenêtre et on continue
+    setTimeout(() => {
+      try { wssosession.close() } catch { /* ignore */ }
+      console.log('session F5 SSO établie via popup (délai 1s)')
+      resolve()
+    }, 1000)
+  })
+}
 onMounted(async () => {
   if (bprmsok) {
+    // Lancer l'établissement SSO en parallèle de la récupération des données
+    const ssoPromise = etablirSessionSso()
+
     let server: string = ''
     if (import.meta.env.DEV) {
       server = 'https://mygolux.lausanne.ch'
@@ -115,6 +146,9 @@ onMounted(async () => {
       messageerreur.value += dataxml64enc.value
     } else {
       if (controle !== 'nopostdebug') {
+        // Attendre que la session SSO soit établie avant de submit
+        await ssoPromise
+        console.log('SSO prêt, soumission du formulaire')
         formRef.value?.submit()
       }
     }
@@ -122,19 +156,13 @@ onMounted(async () => {
 })
 
 function stringToPositiveInteger(str: string): number | null {
-  // Vérifie que c'est une string non vide
   if (!str || str.trim() === '') {
     return null;
   }
-
-  // Convertit en number
   const num = Number(str);
-
-  // Vérifie que c'est un nombre valide, un entier et positif
   if (isNaN(num) || !Number.isInteger(num) || num < 0) {
     return null;
   }
-
   return num;
 }
 </script>
