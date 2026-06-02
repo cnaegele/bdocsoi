@@ -18,9 +18,9 @@ const formaction = ref<string>('https://print-vdl.lausanne.ch/wsprint-v1.6/print
 //L'authentification via loginsso pose problème car le POST est transformé en GET lors du processus d'authentification.
 //Problème connu au SOI.
 //Proposition SOI (01.06.2026 Laurent Dormont)
-//Faire que l'application envoie tout d'abord une requête HTTP GET sur https://print-vdl.lausanne.ch/ 
+//Faire que l'application envoie tout d'abord une requête HTTP GET sur https://print-vdl.lausanne.ch/wsprint-v1.6/jsp/print.jsp 
 //afin de passer le processus d'authentification SSO, puis envoyer la requête HTTP POST avec les donnes du formulaire
-const urldummysession = ref<string>('https://print-vdl.lausanne.ch/')
+const urldummysession = ref<string>('https://print-vdl.lausanne.ch/wsprint-v1.6/jsp/print.jsp')
 const urlParams = new URLSearchParams(window.location.search)
 let idaffaire: number | null = null
 let contexte: string | null = null
@@ -45,11 +45,11 @@ if (prmscontrole !== null && prmscontrole !== '') {
 switch (environnement) {
   case 'test':
     formaction.value = 'https://print-vdl-test.lausanne.ch/wsprint-v1.6/print/post'
-    urldummysession.value = 'https://print-vdl-test.lausanne.ch/'
+    urldummysession.value = 'https://print-vdl-test.lausanne.ch/wsprint-v1.6/jsp/print.jsp'
     break
   case 'vali':
     formaction.value = 'https://print-vdl-vali.lausanne.ch/wsprint-v1.6/print/post'
-    urldummysession.value = 'https://print-vdl-vali.lausanne.ch/'
+    urldummysession.value = 'https://print-vdl-vali.lausanne.ch/wsprint-v1.6/jsp/print.jsp'
     break
 }
 
