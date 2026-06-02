@@ -15,7 +15,12 @@ import type { AxiosResponse } from 'axios'
 
 const messageerreur = ref<string>('')
 const formaction = ref<string>('https://print-vdl.lausanne.ch/wsprint-v1.6/print/post')
-//const formaction = ref<string>('http://ws-print.lausanne.ch/wsprint-v1.6/print/post') //sans sso
+//L'authentification via loginsso pose problème car le POST est transformé en GET lors du processus d'authentification.
+//Problème connu au SOI.
+//Proposition SOI (01.06.2026 Laurent Dormont)
+//Faire que l'application envoie tout d'abord une requête HTTP GET sur https://print-vdl.lausanne.ch/ 
+//afin de passer le processus d'authentification SSO, puis envoyer la requête HTTP POST avec les donnes du formulaire
+const urldummysession = ref<string>('https://print-vdl.lausanne.ch/')
 const urlParams = new URLSearchParams(window.location.search)
 let idaffaire: number | null = null
 let contexte: string | null = null
@@ -40,11 +45,11 @@ if (prmscontrole !== null && prmscontrole !== '') {
 switch (environnement) {
   case 'test':
     formaction.value = 'https://print-vdl-test.lausanne.ch/wsprint-v1.6/print/post'
-    //formaction.value = 'http://ws-print-test.lausanne.ch/wsprint-v1.6/print/post' //sans sso
+    urldummysession.value = 'https://print-vdl-test.lausanne.ch/'
     break
   case 'vali':
     formaction.value = 'https://print-vdl-vali.lausanne.ch/wsprint-v1.6/print/post'
-    //formaction.value = 'http://ws-print-vali.lausanne.ch/wsprint-v1.6/print/post' //sans sso
+    urldummysession.value = 'https://print-vdl-vali.lausanne.ch/'
     break
 }
 
@@ -102,7 +107,7 @@ const fluxXML64Ref = ref<HTMLFormElement | null>(null)
 function etablirSessionSso(): Promise<void> {
   return new Promise((resolve) => {
     const wssosession = window.open(
-      formaction.value,
+      urldummysession.value,
       'ssosession',
       'width=1,height=1,left=-9999,top=-9999'
     )
@@ -113,13 +118,13 @@ function etablirSessionSso(): Promise<void> {
       return
     }
 
-    // On laisse 1 secondes pour que F5 fasse le SSO complet,
+    // On laisse 2.5 secondes pour que F5 fasse le SSO complet,
     // puis on ferme la fenêtre et on continue
     setTimeout(() => {
       try { wssosession.close() } catch { /* ignore */ }
       console.log('session F5 SSO établie via popup (délai 1s)')
       resolve()
-    }, 1000)
+    }, 2500)
   })
 }
 onMounted(async () => {
