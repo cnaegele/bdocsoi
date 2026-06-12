@@ -63,6 +63,11 @@ switch (contexte) {
     sformatdoccontexte = '7'
     pagecontexte = '/goeland/bdocsoi/axios/afft11lettredemandeprealable.php'
     break;
+  case 'afft218correctionenquete':
+    siddoccontexte = 'OPCCorrectionAvantEnquete'
+    sformatdoccontexte = '7'
+    pagecontexte = '/goeland/bdocsoi/axios/afft218lettrecorrectionenquete.php'
+    break;
   case 'afft218permisconstruire':
     siddoccontexte = 'PermisDeConstruire'
     sformatdoccontexte = '7'
