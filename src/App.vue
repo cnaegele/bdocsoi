@@ -68,6 +68,21 @@ switch (contexte) {
     sformatdoccontexte = '7'
     pagecontexte = '/goeland/bdocsoi/axios/afft218lettrecorrectionenquete.php'
     break;
+  case 'afft218informationenquete':
+    siddoccontexte = 'OPCInformationEnquete'
+    sformatdoccontexte = '7'
+    pagecontexte = '/goeland/bdocsoi/axios/afft218lettreinformationenquete.php'
+    break;
+  case 'afft218avisenquete':
+    siddoccontexte = 'OPCAvisEnquete'
+    sformatdoccontexte = '7'
+    pagecontexte = '/goeland/bdocsoi/axios/afft218avisenquete.php'
+    break;
+  case 'afft218abandonprojet':
+    siddoccontexte = 'OPCAbandonProjet'
+    sformatdoccontexte = '7'
+    pagecontexte = '/goeland/bdocsoi/axios/afft218lettreabandonprojet.php'
+    break;
   case 'afft218permisconstruire':
     siddoccontexte = 'PermisDeConstruire'
     sformatdoccontexte = '7'
