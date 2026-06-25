@@ -23,6 +23,8 @@ const formaction = ref<string>('https://print-vdl.lausanne.ch/wsprint-v1.6/print
 const urldummysession = ref<string>('https://print-vdl.lausanne.ch/wsprint-v1.6/jsp/print.jsp')
 const urlParams = new URLSearchParams(window.location.search)
 let idaffaire: number | null = null
+let idenveloppe: number | null = null
+let iddocument: number | null = null
 let contexte: string | null = null
 let environnement: string = 'prod'
 let controle: string = ''
@@ -52,11 +54,16 @@ switch (environnement) {
     urldummysession.value = 'https://print-vdl-vali.lausanne.ch/wsprint-v1.6/jsp/print.jsp'
     break
 }
+const prmsidocument = urlParams.get('iddocument')
+const prmsidenveloppe = urlParams.get('idenveloppe')
+
 
 let bprmsok = true
 let siddoccontexte: string = ''
 let sformatdoccontexte: string = ''
 let pagecontexte: string = ''
+let params = new URLSearchParams([['idaffaire', (idaffaire ?? 0).toString()]])
+
 switch (contexte) {
   case 'afft11lettredemandeprealable':
     siddoccontexte = 'OPCDemandePrealable'
@@ -78,10 +85,23 @@ switch (contexte) {
     sformatdoccontexte = '7'
     pagecontexte = '/goeland/bdocsoi/axios/afft218avisenquete.php'
     break;
+  case 'afft218accusereceptionoppint':
+    siddoccontexte = 'OPCAccuseReceptionOppInt'
+    sformatdoccontexte = '7'
+    pagecontexte = '/goeland/bdocsoi/axios/afft218accusereceptionoppint.php'
+    if (prmsidocument !== null && prmsidocument !== '') {
+      iddocument = stringToPositiveInteger(prmsidocument)
+    }
+    params = new URLSearchParams([['iddocument', (iddocument ?? 0).toString()]])
+    break; 
   case 'afft218abandonprojet':
     siddoccontexte = 'OPCAbandonProjet'
     sformatdoccontexte = '7'
     pagecontexte = '/goeland/bdocsoi/axios/afft218lettreabandonprojet.php'
+    if (prmsidenveloppe !== null && prmsidenveloppe !== '') {
+      idenveloppe = stringToPositiveInteger(prmsidenveloppe)
+    }
+    params = new URLSearchParams([['idaffaire', (idaffaire ?? 0).toString()], ['idenveloppe', (idenveloppe ?? 0).toString()]])
     break;
   case 'afft218permisconstruire':
     siddoccontexte = 'PermisDeConstruire'
@@ -105,6 +125,7 @@ console.log(`idaffaire : ${idaffaire}`)
 console.log(`contexte : ${contexte}`)
 console.log(`environnement : ${environnement}`)
 console.log(`formaction : ${formaction.value}`)
+console.log(`params : ${params}`)
 console.log(`bprmsok : ${bprmsok}`)
 console.log(`messageerreur : ${messageerreur.value}`)
 
@@ -158,7 +179,7 @@ onMounted(async () => {
     }
     const page: string = pagecontexte
     const urlaffdl: string = `${server}${page}`
-    const params = new URLSearchParams([['idaffaire', (idaffaire ?? 0).toString()]])
+    console.log(params)
     const response: AxiosResponse = await axios.get(urlaffdl, { params })
     console.log(response.data)
     dataxml64enc.value = response.data
