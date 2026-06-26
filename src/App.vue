@@ -92,7 +92,7 @@ switch (contexte) {
     if (prmsidocument !== null && prmsidocument !== '') {
       iddocument = stringToPositiveInteger(prmsidocument)
     }
-    params = new URLSearchParams([['iddocument', (iddocument ?? 0).toString()]])
+    params = new URLSearchParams([['idaffaire', (idaffaire ?? 0).toString()], ['iddocument', (iddocument ?? 0).toString()]])
     break; 
   case 'afft218abandonprojet':
     siddoccontexte = 'OPCAbandonProjet'
