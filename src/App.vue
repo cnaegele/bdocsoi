@@ -99,6 +99,15 @@ switch (contexte) {
     }
     params = new URLSearchParams([['idaffaire', (idaffaire ?? 0).toString()], ['iddocument', (iddocument ?? 0).toString()]])
     break; 
+  case 'afft218reponseobservation':
+    siddoccontexte = 'OPCReponseObservation'
+    sformatdoccontexte = '7'
+    pagecontexte = '/goeland/bdocsoi/axios/afft218accusereceptionoppint.php'
+    if (prmsidocument !== null && prmsidocument !== '') {
+      iddocument = stringToPositiveInteger(prmsidocument)
+    }
+    params = new URLSearchParams([['idaffaire', (idaffaire ?? 0).toString()], ['iddocument', (iddocument ?? 0).toString()]])
+    break; 
   case 'afft218abandonprojet':
     siddoccontexte = 'OPCAbandonProjet'
     sformatdoccontexte = '7'
