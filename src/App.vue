@@ -85,10 +85,25 @@ switch (contexte) {
     sformatdoccontexte = '7'
     pagecontexte = '/goeland/bdocsoi/axios/afft218lettreinformationenquete.php'
     break;
+  case 'afft218resultatenquete':
+    siddoccontexte = 'OPCResultatEnquete'
+    sformatdoccontexte = '7'
+    pagecontexte = '/goeland/bdocsoi/axios/afft218lettreresultatenquete.php'
+    break;
   case 'afft218avisenquete':
     siddoccontexte = 'OPCAvisEnquete'
     sformatdoccontexte = '7'
     pagecontexte = '/goeland/bdocsoi/axios/afft218avisenquete.php'
+    break;
+  case 'afft218complementavantmuni':
+    siddoccontexte = 'OPCComplementAvantMuni'
+    sformatdoccontexte = '7'
+    pagecontexte = '/goeland/bdocsoi/axios/afft218lettrecomplementavantmuni.php'
+    break;
+  case 'afft218accusereceptiondossier':
+    siddoccontexte = 'OPCAccuseReceptionDossier'
+    sformatdoccontexte = '7'
+    pagecontexte = '/goeland/bdocsoi/axios/afft218accusereceptiondossier.php'
     break;
   case 'afft218accusereceptionoppint':
     siddoccontexte = 'OPCAccuseReceptionOppInt'
